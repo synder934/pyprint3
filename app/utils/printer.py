@@ -13,9 +13,6 @@ class Printer:
         self.connection = None
         self.log = []
 
-        self.addLog("ffs this wont work")
-        self.addLog(["ffs this wont work"])
-
         listener = threading.Thread(target=self.listener, daemon=True)
         listener.start()
 
@@ -26,7 +23,6 @@ class Printer:
                     newLines = self.connection.readlines()
                     for line in newLines:
                         self.addLog(line.decode().strip(), recieved=True)
-                        print(self.log)
             except:
                 pass
 

@@ -24,6 +24,7 @@ class Printer:
                 newLines = self.connection.readlines()
                 for line in newLines:
                     self.addLog(line.decode().strip(), recieved=True)
+                    print(self.log)
 
     def addLog(self, text, recieved: bool = False):
         self.log.append(

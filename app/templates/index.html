@@ -11,6 +11,14 @@
     {% set label = "new button name" %}
     {% include 'components/button.html' with context%}
 
+    {% set name = "control panel" %}
+    {% include 'components/frame.html' with context %}
 
+
+    <form method="POST">
+        <input type="text" name="command" placeholder="Enter G-code (e.g., M105)" required>
+        <button type="submit">Send</button>
+    </form>
+    
 </body>
 </html>

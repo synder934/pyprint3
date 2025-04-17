@@ -1,5 +1,17 @@
 import serial
 import time
+import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+if not logger.hasHandlers():
+    handler = logging.StreamHandler()
+    formatter = logging.Formatter(
+        "[%(asctime)s] %(levelname)s in %(name)s: %(message)s"
+    )
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
 
 
 class Printer:
@@ -19,6 +31,7 @@ class Printer:
             return False
 
     def _sendCommand(self, command):
+        logger.info(f"sending command: {command}")
         try:
             self.connection.write(f"{command}\n".encode())
             time.sleep(1)

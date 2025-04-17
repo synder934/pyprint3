@@ -19,6 +19,11 @@
         <input type="text" name="command" placeholder="Enter G-code (e.g., M105)" required>
         <button type="submit">Send</button>
     </form>
+
+
+    {% for port in ports %}
+        <div>{{ port }}</div>
+    {% endfor %}
     
 </body>
 </html>

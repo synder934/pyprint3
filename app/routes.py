@@ -12,4 +12,7 @@ def index():
         if command:
             current_app.printer._sendCommand(command)
 
-    return render_template("index.html")
+    return render_template(
+        "index.html",
+        ports=current_app.printer._listPorts(),
+    )

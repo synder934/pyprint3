@@ -1,13 +1,22 @@
 import serial
 import time
 import logging
+import os
+import re
 
 
 class Printer:
     def __init__(self, port: str = None, baudrate: int = 115200):
-        self.port = port if port else "/dev/ttyUSB0"
+        self.port = None
         self.baudrate = baudrate
         self.connection = None
+
+    def _listPorts(self):
+        if os.name == "posix":
+            ports = os.listdir("/dev")
+            return [port for port in ports if re.search("USB", port)]
+        else:
+            return ["proxy1", "proxy2"]
 
     def _connect(self):
         try:

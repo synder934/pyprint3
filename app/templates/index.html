@@ -15,15 +15,26 @@
     {% include 'components/frame.html' with context %}
 
 
-    <form method="POST">
+    <form action="/send_command" method="post">
         <input type="text" name="command" placeholder="Enter G-code (e.g., M105)" required>
         <button type="submit">Send</button>
     </form>
 
 
-    {% for port in ports %}
-        <div>{{ port }}</div>
-    {% endfor %}
+    {% if printer.port is not none %}
+    
+    <div>connected to {{ printer.port }}</div>
+
+    {% else %}
+    
+    <form action="/connect" method="post">
+        {% for port in ports %}
+            <input type="radio" name="port" id="{{ port }}" placeholder="">
+            <label for="{{ port }}">{{ port }}</label>
+        {% endfor %}
+        <button type="submit">connect</button>
+    </form>
+    {% endif %}
     
 </body>
 </html>

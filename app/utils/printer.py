@@ -18,6 +18,9 @@ class Printer:
         else:
             return ["proxy1", "proxy2"]
 
+    def setPort(self, port: str):
+        self.port = port
+
     def _connect(self):
         try:
             if not self.connection:

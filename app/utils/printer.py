@@ -21,11 +21,14 @@ class Printer:
 
     def listener(self):
         while True:
-            if self.connection is not None:
-                newLines = self.connection.readlines()
-                for line in newLines:
-                    self.addLog(line.decode().strip(), recieved=True)
-                    print(self.log)
+            try:
+                if self.connection is not None:
+                    newLines = self.connection.readlines()
+                    for line in newLines:
+                        self.addLog(line.decode().strip(), recieved=True)
+                        print(self.log)
+            except:
+                pass
 
     def addLog(self, text, recieved: bool = False):
         self.log.append(

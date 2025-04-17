@@ -6,37 +6,14 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Welcome to your Flask app!</h1>
+    <header>
+        connected to {{ socket.gethostname() }}
+    </header>
 
-    {% set label = "new button name" %}
-    {% include 'components/button.html' with context%}
-
-    {% set name = "control panel" %}
-    {% include 'components/frame.html' with context %}
-
-
-    <form action="/send_command" method="post">
-        <input type="text" name="command" placeholder="Enter G-code (e.g., M105)" required>
-        <button type="submit">Send</button>
-    </form>
-
-
-    {% if printer.connection is not none %}
     
-    <form action="/disconnect" method="post">
-        <button>disconnect from {{ printer.port }}</button>
-    </form>
+    {% include 'components/connection.html' with context%}
 
-    {% else %}
-    
-    <form action="/connect" method="post">
-        {% for port in ports %}
-            <input type="radio" name="port" value="{{ port }}" placeholder="">
-            <label for="{{ port }}">{{ port }}</label>
-        {% endfor %}
-        <button type="submit">connect</button>
-    </form>
-    {% endif %}
+    {% include 'components/terminal.html' with context %}
     
 </body>
 </html>

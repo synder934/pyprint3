@@ -3,6 +3,7 @@ import time
 import logging
 import os
 import re
+import threading
 
 
 class Printer:
@@ -10,6 +11,24 @@ class Printer:
         self.port = None
         self.baudrate = baudrate
         self.connection = None
+        self.log = []
+
+        threading.Thread(target=self.listener, daemon=True)
+
+    def listener(self):
+        while True:
+            if self.connection is not None:
+                newLines = self.connection.readlines()
+                for line in newLines:
+                    self.addLog(line)
+
+    def addLog(self, text):
+        self.log.append(
+            {
+                "text": text,
+                "time": time.time(),
+            }
+        )
 
     def _listPorts(self):
         if os.name == "posix":

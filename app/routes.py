@@ -1,5 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for, current_app
 from . import customFlask
+import os
+import sys
+import socket
+
 
 main = Blueprint("main", __name__)
 current_app: customFlask
@@ -10,8 +14,10 @@ def index():
 
     return render_template(
         "index.html",
-        ports=current_app.printer._listPorts(),
         printer=current_app.printer,
+        os=os,
+        sys=sys,
+        socket=socket,
     )
 
 

@@ -38,6 +38,6 @@ def connect_to_printer():
 @main.route("/disconnect", methods=["POST"])
 def disconnect_from_printer():
     current_app.printer.connection.close()
-    current_app.printer = None
+    current_app.printer.connection = None
 
     return redirect(request.referrer)

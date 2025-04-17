@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for, current_app
+from . import customFlask
 
 main = Blueprint("main", __name__)
+current_app: customFlask
 
 
 @main.route("/", methods=["GET", "POST"])
@@ -10,6 +12,4 @@ def index():
         if command:
             current_app.printer._sendCommand(command)
 
-    return render_template(
-        "index.html",
-    )
+    return render_template("index.html")

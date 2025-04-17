@@ -28,7 +28,8 @@ def send_command():
 @main.route("/connect", methods=["POST"])
 def connect_to_printer():
 
-    command = request.form.get("port")
-    print(command)
+    port = request.form.get("port")
+    current_app.printer.setPort(port)
+    current_app.printer._connect()
 
     return redirect(request.referrer)

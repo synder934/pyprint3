@@ -23,7 +23,9 @@
 
     {% if printer.port is not none %}
     
-    <div>connected to {{ printer.port }}</div>
+    <form action="/disconnect" method="post">
+        <button>disconnect from {{ printer.port }}</button>
+    </form>
 
     {% else %}
     

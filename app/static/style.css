@@ -13,3 +13,10 @@ body {
     background-color: lightblue;
     
 }
+
+
+#terminal {
+    width: 350px;
+    height: auto;
+    resize:horizontal;
+}

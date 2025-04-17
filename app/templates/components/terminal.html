@@ -1,8 +1,8 @@
-<div>
+<div class="terminal">
 
-    {% for entry in printer.log %}
-        <p>{{ entry.text }}</p>
-    {% endfor %}
+    <textarea id="terminal" readonly>{% for entry in printer.log %}{{ entry.text }}
+{% endfor %}
+    </textarea>
 
     <form action="/send_command" method="post">
         <input type="text" name="command" placeholder="Enter G-code (e.g., M105)" required>

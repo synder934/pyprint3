@@ -17,6 +17,7 @@ app = Flask(__name__)
 
 # Create the printer object once
 printer = Printer(port="/dev/ttyUSB0", baudrate=115200)
+printer._connect()
 
 
 @app.route("/", methods=["GET", "POST"])

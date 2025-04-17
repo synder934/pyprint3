@@ -8,10 +8,13 @@ import threading
 
 class Printer:
     def __init__(self, port: str = None, baudrate: int = 115200):
-        self.port = None
+        self.port = port
         self.baudrate = baudrate
         self.connection = None
         self.log = []
+
+        self.addLog("ffs this wont work")
+        self.addLog(["ffs this wont work"])
 
         threading.Thread(target=self.listener, daemon=True)
 
@@ -20,14 +23,14 @@ class Printer:
             if self.connection is not None:
                 newLines = self.connection.readlines()
                 for line in newLines:
-                    print(line)
-                    self.addLog(line)
+                    self.addLog(line.decode().strip(), recieved=True)
 
-    def addLog(self, text):
+    def addLog(self, text, recieved: bool = False):
         self.log.append(
             {
                 "text": text,
                 "time": time.time(),
+                "recieved": recieved,
             }
         )
 
@@ -45,10 +48,8 @@ class Printer:
         try:
             if not self.connection:
                 self.connection = serial.Serial(self.port, self.baudrate, timeout=1)
-                time.sleep(1)
             return True
         except Exception as e:
-            print(e)
             return False
 
     def _sendCommand(self, command):
@@ -57,7 +58,6 @@ class Printer:
             self.connection.write(f"{command}\n".encode())
             return True
         except Exception as e:
-            print(e)
             return False
 
 

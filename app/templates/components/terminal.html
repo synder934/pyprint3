@@ -1,7 +1,8 @@
 <div>
 
-    {% for line in printer.log %}
-        <p>{{ line }}</p>
+    <textarea name="" id=""></textarea>
+    {% for entry in printer.log %}
+        <p>{{ entry.text }}</p>
     {% endfor %}
 
     <form action="/send_command" method="post">

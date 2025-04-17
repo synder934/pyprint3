@@ -16,7 +16,8 @@ class Printer:
         self.addLog("ffs this wont work")
         self.addLog(["ffs this wont work"])
 
-        threading.Thread(target=self.listener, daemon=True)
+        listener = threading.Thread(target=self.listener, daemon=True)
+        listener.start()
 
     def listener(self):
         while True:

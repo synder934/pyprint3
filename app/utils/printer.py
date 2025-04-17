@@ -55,9 +55,6 @@ class Printer:
         print(f"sending command: {command}")
         try:
             self.connection.write(f"{command}\n".encode())
-            time.sleep(1)
-            res = self.connection.readlines()
-            print([line.decode().strip() for line in res])
             return True
         except Exception as e:
             print(e)

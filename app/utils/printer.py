@@ -33,3 +33,6 @@ class Printer:
 if __name__ == "__main__":
     printer = Printer()
     printer._connect()
+    while True:
+        command = input("ender3 > ")
+        printer._sendCommand(command)

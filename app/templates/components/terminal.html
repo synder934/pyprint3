@@ -1,7 +1,7 @@
 <div>
 
     {% for line in printer.log %}
-        <p>line</p>
+        <p>{{ line }}</p>
     {% endfor %}
 
     <form action="/send_command" method="post">

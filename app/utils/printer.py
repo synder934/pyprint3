@@ -20,6 +20,7 @@ class Printer:
             if self.connection is not None:
                 newLines = self.connection.readlines()
                 for line in newLines:
+                    print(line)
                     self.addLog(line)
 
     def addLog(self, text):

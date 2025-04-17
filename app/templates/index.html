@@ -29,7 +29,7 @@
     
     <form action="/connect" method="post">
         {% for port in ports %}
-            <input type="radio" name="port" id="{{ port }}" placeholder="">
+            <input type="radio" name="port" value="{{ port }}" placeholder="">
             <label for="{{ port }}">{{ port }}</label>
         {% endfor %}
         <button type="submit">connect</button>

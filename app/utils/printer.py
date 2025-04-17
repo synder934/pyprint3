@@ -19,7 +19,7 @@ class Printer:
             return ["proxy1", "proxy2"]
 
     def setPort(self, port: str):
-        self.port = port
+        self.port = "/dev" + port
 
     def _connect(self):
         try:

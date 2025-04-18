@@ -7,8 +7,11 @@ import time
 def gitCheckAndPull():
     while True:
         subprocess.run(["git", "fetch"])
-        res = subprocess.run(["git", "status", "-uno"], capture_output=True, text=True)
-        if "Your branch is behind" in res.stdout:
+        res = subprocess.run(
+            ["git", "status", "-uno"],
+            stdout=subprocess.PIPE,
+        )
+        if "Your branch is behind" in res.stdout.decode():
             subprocess.run(["git", "pull"])
         time.sleep(5)
 

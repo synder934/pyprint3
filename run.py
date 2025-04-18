@@ -1,9 +1,16 @@
 from app import create_app
 from threading import Thread
+import subprocess
+import time
 
 
 def gitCheckAndPull():
-    pass
+    while True:
+        subprocess.run(["git", "fetch"])
+        res = subprocess.run(["git", "status", "-uno"])
+        if "Your branch is behind" in res.stdout:
+            subprocess.run(["git", "pull"])
+        time.sleep(5)
 
 
 app = create_app()

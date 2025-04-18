@@ -17,6 +17,6 @@ body {
 
 #terminal {
     width: 350px;
-    height: auto;
+    height: 100%;
     resize:horizontal;
 }

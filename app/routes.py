@@ -1,4 +1,12 @@
-from flask import Blueprint, render_template, request, redirect, url_for, current_app
+from flask import (
+    Blueprint,
+    render_template,
+    request,
+    redirect,
+    url_for,
+    current_app,
+    jsonify,
+)
 from . import customFlask
 import os
 import sys
@@ -47,3 +55,8 @@ def disconnect_from_printer():
     current_app.printer.connection = None
 
     return redirect(request.referrer)
+
+
+@main.route("/serial-log")
+def serial_log():
+    return jsonify(current_app.printer.getLogText())

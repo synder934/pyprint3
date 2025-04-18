@@ -1,11 +1,24 @@
 <div class="terminal">
-
-    <textarea id="terminal" readonly>{% for entry in printer.log %}{{ entry.text }}
-{% endfor %}
-    </textarea>
+    <textarea id="terminal" readonly></textarea>
 
     <form action="/send_command" method="post">
-        <input type="text" name="command" placeholder="Enter G-code (e.g., M105)" required>
+        <input type="text" name="command" placeholder="Enter G-code (e.g., M105)" required />
         <button type="submit">Send</button>
     </form>
 </div>
+
+<script>
+    function updateLog() {
+        fetch("/serial-log")
+            .then((res) => res.json())
+            .then((log) => {
+                const box = document.getElementById("terminal");
+                box.value = log.join("\n");
+                box.scrollTop = box.scrollHeight; // auto-scroll to bottom
+            })
+            .catch(err => console.error("Log fetch failed:", err));
+    }
+
+    setInterval(updateLog, 1000);
+    window.onload = updateLog;
+</script>

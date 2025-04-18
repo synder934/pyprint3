@@ -1,5 +1,6 @@
 import serial
 import time
+import datetime
 import logging
 import os
 import re
@@ -28,6 +29,12 @@ class Printer:
                         self.addLog(line.decode().strip(), recieved=True)
             except:
                 pass
+
+    def getLogText(self):
+        return [
+            f"{datetime.datetime.fromtimestamp(line["time"]).replace(microsecond=0)} [{'READ' if line["recieved"] else 'SENT'}] {line["text"]}"
+            for line in self.log
+        ]
 
     def addLog(self, text, recieved: bool = False):
         self.log.append(

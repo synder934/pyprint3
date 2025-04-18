@@ -12,6 +12,7 @@ def gitCheckAndPull():
             stdout=subprocess.PIPE,
         )
         if "Your branch is behind" in res.stdout.decode():
+            subprocess.run(["git", "config", "pull.ff", "only"])
             subprocess.run(["git", "pull"])
         time.sleep(5)
 
@@ -19,6 +20,6 @@ def gitCheckAndPull():
 app = create_app()
 
 if __name__ == "__main__":
-    autoUpdate = Thread(target=gitCheckAndPull, daemon=True)
-    autoUpdate.start()
+    # autoUpdate = Thread(target=gitCheckAndPull, daemon=True)
+    # autoUpdate.start()
     app.run(host="0.0.0.0", port=5000, debug=True)

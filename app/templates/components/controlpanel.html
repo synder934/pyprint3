@@ -1,0 +1,12 @@
+{% extends 'components/frame.html' %}
+
+
+{% block content %}
+    
+<div>
+    {% include 'components/connection.html' with context%}
+        
+    {% include 'components/terminal.html' with context %}
+</div>
+
+{% endblock content %}

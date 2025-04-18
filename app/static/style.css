@@ -1,19 +1,52 @@
+:root {
+    --primary: #800020;   /* Burgundy Red */
+    --accent: #9B111E;    /* Deep Crimson */
+    --bg: #1A1A1A;        /* Charcoal */
+    --fg: #FAF9F6;        /* Soft White */
+    --success: #228B22;   /* Forest Green */
+    --error: #B22222;     /* Fire Red */
+    --dimmed: #A0A0A0;    /* Ash Grey */
+  }
+
 body {
     font-family: Arial, sans-serif;
-    margin: 2rem;
+    margin: 0;
+    background-color: var(--bg);
 }
 
 
 
-.frame.h1 {
+header{
+    display: flex;
+    height: 5rem;
+    width: 100%;
+    background-color: var(--fg);
 
-}
-
-.frame {
-    background-color: lightblue;
+    align-items: center;
+    justify-content: center
     
 }
 
+
+
+.frame {
+    background-color: var(--dimmed);
+    margin: 1rem;
+    width: fit-content;
+}
+
+.frame h1 {
+    border-bottom: var(--accent) 1px solid;
+    padding: 1rem;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    padding: 1rem;
+    padding-top: 0px;
+}
 
 #terminal {
     width: 350px;

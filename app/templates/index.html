@@ -7,14 +7,20 @@
 </head>
 <body>
     <header>
-        connected to {{ socket.gethostname() }}
+
+        <h1>connected to {{ socket.gethostname() }}</h1>
     </header>
 
-    
-    {% include 'components/connection.html' with context%}
+    <main>
+        
+        {% set name = "Control Panel" %}
+        {% include 'components/controlpanel.html' with context %}
+        
+    </main>
 
-    {% include 'components/terminal.html' with context %}
+    <footer>
 
+    </footer>
     
     
 </body>

@@ -3,6 +3,15 @@ from threading import Thread
 import subprocess
 import time
 
+import logging
+from flask import Flask, request
+
+
+class NoLoggingFilter(logging.Filter):
+    def filter(self, record):
+        ignore_paths = ["/serial-log"]  # Add any route paths you want to suppress
+        return not any(path in record.getMessage() for path in ignore_paths)
+
 
 def gitCheckAndPull():
     while True:
@@ -20,6 +29,9 @@ def gitCheckAndPull():
 app = create_app()
 
 if __name__ == "__main__":
+    log = logging.getLogger("werkzeug")
+    log.addFilter(NoLoggingFilter())
     autoUpdate = Thread(target=gitCheckAndPull, daemon=True)
     autoUpdate.start()
+
     app.run(host="0.0.0.0", port=5000, debug=True)

@@ -14,9 +14,6 @@ class Printer:
         self.connection = None
         self.log = []
 
-        self.addLog("beans")
-        self.addLog("beans again")
-
         listener = threading.Thread(target=self.listener, daemon=True)
         listener.start()
 
@@ -64,8 +61,8 @@ class Printer:
             return False
 
     def _sendCommand(self, command):
-        print(f"sending command: {command}")
         try:
+            self.addLog(f"command: {command}")
             self.connection.write(f"{command}\n".encode())
             return True
         except Exception as e:

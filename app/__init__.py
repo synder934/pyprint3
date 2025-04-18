@@ -30,7 +30,6 @@ class customFlask(Flask):
             root_path,
         )
         self.printer = Printer()
-        self.printer._connect()
 
 
 def create_app():

@@ -6,53 +6,59 @@ import os
 import re
 import threading
 
+import serial.tools
+import serial.tools.list_ports
+from .logger import LogBook
+
 
 class Printer:
     def __init__(self, port: str = None, baudrate: int = 115200):
         self.port = port
         self.baudrate = baudrate
         self.connection = None
-        self.log = []
+        self._log: LogBook = LogBook()
+        self.command_queue: list[dict] = []
 
-        listener = threading.Thread(target=self.listener, daemon=True)
-        listener.start()
+        interface = threading.Thread(target=self._interface, daemon=True)
+        interface.start()
 
-    def listener(self):
+    def _interface(self):
         while True:
             try:
+                # send all queued commands
+                while len(self.command_queue):
+                    command = self.command_queue.pop(0)
+                    self.addLog("USER", command)
+                    if self.connection is not None:
+                        self.connection.write(command)
+                    else:
+                        self.addLog("SERVER", "printer is offline")
+
                 if self.connection is not None:
+
+                    # read all data from port
                     newLines = self.connection.readlines()
                     for line in newLines:
-                        self.addLog(line.decode().strip(), recieved=True)
+                        self.addLog("PRINTER", line.decode().strip())
             except:
                 pass
 
     def getLogText(self):
-        return [
-            f"{datetime.datetime.fromtimestamp(line["time"]).replace(microsecond=0)} [{'READ' if line["recieved"] else 'SENT'}] {line["text"]}"
-            for line in self.log
-        ]
+        return str(self._log).splitlines()
 
-    def addLog(self, text, recieved: bool = False):
-        self.log.append(
-            {
-                "text": text,
-                "time": time.time(),
-                "recieved": recieved,
-            }
-        )
+    def addLog(self, author, text):
+        self._log.add_log(author, text, 1)
 
     def _listPorts(self):
-        if os.name == "posix":
-            ports = os.listdir("/dev")
-            return [port for port in ports if re.search("USB", port)]
-        else:
-            return ["proxy1", "proxy2"]
+        return [port.name for port in serial.tools.list_ports.comports()]
 
-    def setPort(self, port: str):
+    def set_port(self, port: str):
         self.port = "/dev/" + port
 
-    def _connect(self):
+    def connect(self):
+        if self.port is None:
+            return
+
         try:
             if not self.connection:
                 self.connection = serial.Serial(self.port, self.baudrate, timeout=1)
@@ -60,9 +66,11 @@ class Printer:
         except Exception as e:
             return False
 
-    def _sendCommand(self, command):
+    def queue_command(self, command):
+        self.command_queue.append(command)
+
+    def _send_command(self, command):
         try:
-            self.addLog(f"command: {command}")
             self.connection.write(f"{command}\n".encode())
             return True
         except Exception as e:
@@ -71,7 +79,8 @@ class Printer:
 
 if __name__ == "__main__":
     printer = Printer()
-    printer._connect()
+    printer.connect()
+    printer._interface()
     while True:
         command = input("ender3 > ")
         printer._sendCommand(command)

@@ -19,6 +19,7 @@ current_app: customFlask
 
 @main.route("/", methods=["GET", "POST"])
 def index():
+    print(current_app.printer._listPorts())
 
     return render_template(
         "index.html",
@@ -34,7 +35,7 @@ def send_command():
 
     command = request.form.get("command")
     if command:
-        current_app.printer._sendCommand(command)
+        current_app.printer.queue_command(command)
 
     return redirect(request.referrer)
 
@@ -43,8 +44,8 @@ def send_command():
 def connect_to_printer():
 
     port = request.form.get("port")
-    current_app.printer.setPort(port)
-    current_app.printer._connect()
+    current_app.printer.set_port(port)
+    current_app.printer.connect()
 
     return redirect(request.referrer)
 
@@ -53,7 +54,6 @@ def connect_to_printer():
 def disconnect_from_printer():
     current_app.printer.connection.close()
     current_app.printer.connection = None
-
     return redirect(request.referrer)
 
 

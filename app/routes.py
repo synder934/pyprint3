@@ -59,3 +59,10 @@ def disconnect_from_printer():
 @main.route("/serial-log")
 def serial_log():
     return jsonify(current_app.printer.get_log_text())
+
+
+@main.route("/set_level", methods=["POST"])
+def set_level():
+    level = request.form.get("level")
+    current_app.printer._log.set_level(int(level))
+    return redirect(request.referrer)

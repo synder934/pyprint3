@@ -4,7 +4,7 @@
 
     <form action="/connect" method="post">
         <select name="port" id="port" title="port">
-            {% for port in printer._listPorts() %}
+            {% for port in printer.listPorts() %}
             <option value="{{ port }}">{{ port }}</option>
             {% endfor %}
         </select>
@@ -15,11 +15,9 @@
     {% else %}
 
 
+
     <form action="/disconnect" method="post">
-        <select name="port" id="port" title="port">
-            <option value="{{ printer.port }}">{{ printer.port }}</option>
-        </select>
-        <button type="button">disconnect</button>
+        <button type="submit">{{ printer.port }} disconnect</button>
     </form>
 
     {% endif %}

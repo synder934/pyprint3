@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Hello Flask</title>
+    <title>pyprint3 - {{ socket.gethostname() }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
     <header>
 
@@ -12,16 +14,17 @@
     </header>
 
     <main>
-        
+
         {% set name = "Control Panel" %}
         {% include 'components/controlpanel.html' with context %}
-        
+
     </main>
 
     <footer>
 
     </footer>
-    
-    
+
+
 </body>
+
 </html>

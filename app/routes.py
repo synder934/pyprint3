@@ -19,8 +19,6 @@ current_app: customFlask
 
 @main.route("/", methods=["GET", "POST"])
 def index():
-    print(current_app.printer._listPorts())
-
     return render_template(
         "index.html",
         printer=current_app.printer,
@@ -42,25 +40,22 @@ def send_command():
 
 @main.route("/connect", methods=["POST"])
 def connect_to_printer():
-
     port = request.form.get("port")
-    print(port)
     current_app.printer.set_port(port)
     worked = current_app.printer.connect()
     if worked:
-        current_app.printer.addLog("SERVER", f"connection succesfull to {port}")
+        current_app.printer.add_log("SERVER", f"connection succesfull to {port}")
     else:
-        current_app.printer.addLog("SERVER", f"connection unsuccesfull to {port}")
+        current_app.printer.add_log("SERVER", f"connection unsuccesfull to {port}")
     return redirect(request.referrer)
 
 
 @main.route("/disconnect", methods=["POST"])
 def disconnect_from_printer():
-    current_app.printer.connection.close()
-    current_app.printer.connection = None
+    current_app.printer.disconnect()
     return redirect(request.referrer)
 
 
 @main.route("/serial-log")
 def serial_log():
-    return jsonify(current_app.printer.getLogText())
+    return jsonify(current_app.printer.get_log_text())

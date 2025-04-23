@@ -27,29 +27,38 @@ class Printer:
             try:
                 # send all queued commands
                 while len(self.command_queue):
-                    command = self.command_queue.pop(0)
-                    self.addLog("USER", command)
+                    command: str = self.command_queue.pop(0)
+                    self.add_log("USER", command)
                     if self.connection is not None:
-                        self.connection.write(command)
+                        self.connection.write(f"{command}\n".encode())
                     else:
-                        self.addLog("SERVER", "printer is offline")
+                        self.add_log("SERVER", "printer is offline")
 
                 if self.connection is not None:
 
                     # read all data from port
                     newLines = self.connection.readlines()
                     for line in newLines:
-                        self.addLog("PRINTER", line.decode().strip())
-            except:
+                        self.add_log("PRINTER", line.decode().strip())
+            except Exception as e:
+                print(e)
                 pass
 
-    def getLogText(self):
+    def get_log_text(self):
         return str(self._log).splitlines()
 
-    def addLog(self, author, text):
-        self._log.add_log(author, text, 1)
+    def add_log(self, author: str, text: str):
+        *kwargs, _ = text.split(":")
+        level = 1
 
-    def _listPorts(self):
+        if "busy" in kwargs:
+            level = 0
+        if "Unknown command" in kwargs:
+            level = 2
+
+        self._log.add_log(author, text, level)
+
+    def listPorts(self):
         return [port.device for port in serial.tools.list_ports.comports()]
 
     def set_port(self, port: str):
@@ -65,6 +74,11 @@ class Printer:
             return True
         except Exception as e:
             return False
+
+    def disconnect(self):
+        self.connection.close()
+        self.connection = None
+        self.port = None
 
     def queue_command(self, command):
         self.command_queue.append(command)

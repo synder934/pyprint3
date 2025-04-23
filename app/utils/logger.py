@@ -22,8 +22,9 @@ class Log:
 
 
 class LogBook:
-    def __init__(self):
-        self._logs = []
+    def __init__(self, level: int = Log.INFO):
+        self.level = level
+        self._logs: list[Log] = []
 
     def add_log(self, author: str, text: str, level: int = Log.INFO):
         self._logs.append(
@@ -38,7 +39,7 @@ class LogBook:
         return self._logs
 
     def __repr__(self):
-        return "\n".join([str(log) for log in self._logs])
+        return "\n".join([str(log) for log in self._logs if log.level >= self.level])
 
 
 if __name__ == "__main__":

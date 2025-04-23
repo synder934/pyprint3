@@ -44,9 +44,13 @@ def send_command():
 def connect_to_printer():
 
     port = request.form.get("port")
+    print(port)
     current_app.printer.set_port(port)
-    current_app.printer.connect()
-
+    worked = current_app.printer.connect()
+    if worked:
+        current_app.printer.addLog("SERVER", f"connection succesfull to {port}")
+    else:
+        current_app.printer.addLog("SERVER", f"connection unsuccesfull to {port}")
     return redirect(request.referrer)
 
 

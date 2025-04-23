@@ -50,14 +50,14 @@ class Printer:
         self._log.add_log(author, text, 1)
 
     def _listPorts(self):
-        return [port for port in serial.tools.list_ports.comports()]
+        return [port.name for port in serial.tools.list_ports.comports()]
 
     def set_port(self, port: str):
         self.port = port
 
     def connect(self):
         if self.port is None:
-            return
+            return False
 
         try:
             if not self.connection:

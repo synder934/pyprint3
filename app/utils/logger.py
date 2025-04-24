@@ -16,8 +16,8 @@ class Log:
         self.time = dt.now()
 
     def __repr__(self):
-        return (
-            f"{self.time.strftime("[%d/%m/%Y %H:%M:%S]")} [{self.author}] {self.text}"
+        return "{} [{}] {}".format(
+            self.time.strftime("[%d/%m/%Y %H:%M:%S]"), self.author, self.text
         )
 
 

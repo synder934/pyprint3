@@ -47,9 +47,13 @@ def connect_to_printer():
     current_app.printer.set_port(port)
     worked = current_app.printer.connect()
     if worked:
-        current_app.printer.add_log("SERVER", f"connection succesfull to {port}")
+        current_app.printer.add_log(
+            "SERVER", "connection succesfull to {}".format(port)
+        )
     else:
-        current_app.printer.add_log("SERVER", f"connection unsuccesfull to {port}")
+        current_app.printer.add_log(
+            "SERVER", "connection unsuccesfull to {}".format(port)
+        )
     return redirect(request.referrer)
 
 

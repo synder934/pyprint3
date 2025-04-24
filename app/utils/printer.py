@@ -30,7 +30,7 @@ class Printer:
                     command: str = self.command_queue.pop(0)
                     self.add_log("USER", command)
                     if self.connection is not None:
-                        self.connection.write(f"{command}\n".encode())
+                        self.connection.write("{}\n".format(command).encode())
                     else:
                         self.add_log("SERVER", "printer is offline")
 
@@ -82,13 +82,6 @@ class Printer:
 
     def queue_command(self, command):
         self.command_queue.append(command)
-
-    def _send_command(self, command):
-        try:
-            self.connection.write(f"{command}\n".encode())
-            return True
-        except Exception as e:
-            return False
 
 
 if __name__ == "__main__":

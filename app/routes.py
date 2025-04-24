@@ -1,5 +1,6 @@
 from flask import (
     Blueprint,
+    Response,
     render_template,
     request,
     redirect,
@@ -22,6 +23,7 @@ def index():
     return render_template(
         "index.html",
         printer=current_app.printer,
+        camera=current_app.camera,
         os=os,
         sys=sys,
         socket=socket,
@@ -66,3 +68,11 @@ def set_level():
     level = request.form.get("level")
     current_app.printer._log.set_level(int(level))
     return redirect(request.referrer)
+
+
+@main.route("/video_feed")
+def video_feed():
+    return Response(
+        current_app.camera.gen_frames(),
+        mimetype="multipart/x-mixed-replace; boundary=frame",
+    )

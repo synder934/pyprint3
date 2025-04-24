@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from .utils.printer import Printer
+from .utils.camera import Camera
 import logging
 
 
@@ -30,6 +31,7 @@ class customFlask(Flask):
             root_path,
         )
         self.printer = Printer()
+        self.camera = Camera()
 
 
 def create_app():

@@ -20,6 +20,7 @@ current_app: customFlask
 
 @main.route("/", methods=["GET", "POST"])
 def index():
+    current_app.camera.refresh_source()
     return render_template(
         "index.html",
         printer=current_app.printer,

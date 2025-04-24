@@ -4,10 +4,10 @@ import cv2
 class Camera:
     def __init__(self):
         self.source = None
-        self.reset_source()
+        self.refresh_source()
         pass
 
-    def reset_source(self):
+    def refresh_source(self):
         self.source = cv2.VideoCapture(0)
 
     def is_connected(self):

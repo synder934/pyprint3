@@ -1,55 +1,102 @@
 :root {
-    --primary: #800020;   /* Burgundy Red */
-    --accent: #9B111E;    /* Deep Crimson */
-    --bg: #1A1A1A;        /* Charcoal */
-    --fg: #FAF9F6;        /* Soft White */
-    --success: #228B22;   /* Forest Green */
-    --error: #B22222;     /* Fire Red */
-    --dimmed: #A0A0A0;    /* Ash Grey */
-  }
+    --primary: #800020;
+    /* Burgundy Red */
+    --accent: #9B111E;
+    /* Deep Crimson */
+    --bg: #1A1A1A;
+    /* Charcoal */
+    --fg: #FAF9F6;
+    /* Soft White */
+    --success: #228B22;
+    /* Forest Green */
+    --error: #B22222;
+    /* Fire Red */
+    --dimmed: #A0A0A0;
+    /* Ash Grey */
+}
 
 body {
+    display: flex;
+    flex-direction: column;
     font-family: Arial, sans-serif;
     margin: 0;
     background-color: var(--bg);
+    height: 100vh;
 }
 
 
 
-header{
+header {
     display: flex;
     height: 5rem;
     width: 100%;
     background-color: var(--fg);
 
     align-items: center;
-    justify-content: center
-    
+    justify-content: center;
+    margin-bottom: 1rem;
 }
 
+main {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 
+}
 
 .frame {
+    display: flex;
+    flex-direction: column;
     background-color: var(--dimmed);
     margin: 1rem;
-    width: fit-content;
+    margin-top: 0px;
+    flex: 1;
 }
 
 .frame h1 {
     border-bottom: var(--accent) 1px solid;
+    margin: 0px;
     padding: 1rem;
+    padding-bottom: 0.5rem;
 }
 
 .container {
     display: flex;
-    align-items: center;
-    justify-content: left;
     padding: 1rem;
-    padding-top: 0px;
+    align-items: stretch;
+    justify-content: left;
+    flex-direction: column;
+    height: 100%;
+
 }
 
-#terminal {
-    width: 350px;
-    height: 500px;
-    resize:horizontal;
+div.terminal {
+    display: flex;
+    align-items: left;
+    justify-content: center;
+    flex-direction: column;
+    flex: 1;
+}
+
+
+form.send_command {
+    display: flex;
+}
+
+input {
+    flex: 1;
+}
+
+textarea.terminal {
+    flex: 1;
+    resize: horizontal;
+
+}
+
+
+
+footer {
+
+    height: 2rem;
+    background-color: var(--fg);
 }

@@ -1,4 +1,5 @@
 <div class="terminal">
+
     <form action="/set_level" method="post" class="set_level">
         <select name="level" id="level" onchange="this.form.submit()" aria-placeholder="">
             <option value="" disabled selected>select log level</option>
@@ -9,9 +10,9 @@
         </select>
     </form>
 
-    <textarea id="terminal" readonly></textarea>
+    <textarea class="terminal" id="terminal" readonly></textarea>
 
-    <form action="/send_command" method="post">
+    <form class="send_command" action="/send_command" method="post">
         <input type="text" name="command" placeholder="Enter G-code (e.g., M105)" required />
         <button type="submit">Send</button>
     </form>

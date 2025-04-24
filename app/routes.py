@@ -75,9 +75,9 @@ def set_level():
     return redirect(request.referrer)
 
 
-@main.route("/video_feed")
-def video_feed():
-    return Response(
-        current_app.camera.gen_frames(),
-        mimetype="multipart/x-mixed-replace; boundary=frame",
-    )
+# @main.route("/video_feed")
+# def video_feed():
+#     return Response(
+#         current_app.camera.gen_frames(),
+#         mimetype="multipart/x-mixed-replace; boundary=frame",
+#     )

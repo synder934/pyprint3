@@ -29,7 +29,7 @@ class Printer:
                 # send all queued commands
                 if len(self.command_queue) and self._ready_to_recieve:
                     command: str = self.command_queue.pop(0)
-                    self.add_log("USER", command)
+                    self.add_log("SERVER", command)
                     if self.connection is not None:
                         self.connection.write("{}\n".format(command).encode())
                     else:
@@ -87,6 +87,7 @@ class Printer:
         self.port = None
 
     def queue_command(self, command):
+        self.add_log("USER", f"command queued: {command}")
         self.command_queue.append(command)
 
 

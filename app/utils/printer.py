@@ -32,7 +32,6 @@ class Printer:
                     self.add_log("USER", command)
                     if self.connection is not None:
                         self.connection.write("{}\n".format(command).encode())
-                        self._ready_to_recieve = False
                     else:
                         self.add_log("SERVER", "printer is offline")
 
@@ -41,7 +40,10 @@ class Printer:
                     # read all data from port
                     newLines = self.connection.readlines()
                     for line in map(lambda x: x.decode().strip(), newLines):
-                        if "ok" in line.split(":"):
+                        kwargs = line.split(":")
+                        if "busy" in kwargs:
+                            self._ready_to_recieve = False
+                        if "ok" in kwargs:
                             self._ready_to_recieve = True
                         self.add_log("PRINTER", line)
             except Exception as e:

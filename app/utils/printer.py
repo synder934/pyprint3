@@ -16,6 +16,7 @@ class Printer:
         self.port = port
         self.baudrate = baudrate
         self.connection = None
+        self._ready_to_recieve = True
         self._log: LogBook = LogBook()
         self.command_queue: list[dict] = []
 
@@ -26,11 +27,12 @@ class Printer:
         while True:
             try:
                 # send all queued commands
-                while len(self.command_queue):
+                if len(self.command_queue) and self._ready_to_recieve:
                     command: str = self.command_queue.pop(0)
                     self.add_log("USER", command)
                     if self.connection is not None:
                         self.connection.write("{}\n".format(command).encode())
+                        self._ready_to_recieve = False
                     else:
                         self.add_log("SERVER", "printer is offline")
 
@@ -38,8 +40,10 @@ class Printer:
 
                     # read all data from port
                     newLines = self.connection.readlines()
-                    for line in newLines:
-                        self.add_log("PRINTER", line.decode().strip())
+                    for line in map(lambda x: x.decode().strip(), newLines):
+                        if "ok" in line.split(":"):
+                            self._ready_to_recieve = True
+                        self.add_log("PRINTER", line)
             except Exception as e:
                 print(e)
                 pass

@@ -1,0 +1,10 @@
+<form action="/set_print_state" method="post">
+
+    <select name="state" id="state" onchange="this.form.submit()">
+        <option value="{{ printer.get_print_state() }}" selected>{{ printer.get_print_state() }}</option>
+        {% for state in printer.get_print_states() %}
+        <option value="{{ state['value'] }}">{{ state["name"] }}</option>
+        {% endfor %}
+    </select>
+
+</form>

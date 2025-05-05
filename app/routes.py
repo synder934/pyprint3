@@ -7,11 +7,13 @@ from flask import (
     url_for,
     current_app,
     jsonify,
+    flash,
 )
 from . import customFlask
 import os
 import sys
 import socket
+from .utils.utils import *
 
 
 main = Blueprint("main", __name__)
@@ -71,7 +73,7 @@ def serial_log():
 @main.route("/set_level", methods=["POST"])
 def set_level():
     level = request.form.get("level")
-    current_app.printer._log.set_level(int(level))
+    current_app.printer.__log.set_level(int(level))
     return redirect(request.referrer)
 
 
@@ -81,3 +83,30 @@ def set_level():
 #         current_app.camera.gen_frames(),
 #         mimetype="multipart/x-mixed-replace; boundary=frame",
 #     )
+
+
+@main.route("/upload", methods=["GET", "POST"])
+def upload_file():
+    if request.method == "POST":
+        file = request.files["file"]
+        if "file" not in request.files:
+            pass
+        elif file.filename == "":
+            pass
+        elif file and allowed_file(file.filename):
+            filepath = os.path.join(f"{os.curdir}{os.sep}uploads", file.filename)
+            file.save(filepath)
+
+    return redirect(request.referrer)  # or your main page
+
+
+@main.route("/select_file", methods=["POST"])
+def select_file():
+    current_app.printer.set_filename(request.form.get("file"))
+    return redirect(request.referrer)
+
+
+@main.route("/set_print_state", methods=["POST"])
+def set_print_state():
+    current_app.printer.set_print_state(request.form.get("state"))
+    return redirect(request.referrer)

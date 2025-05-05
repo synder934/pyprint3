@@ -1,0 +1,14 @@
+<form method="POST" action="/upload" enctype="multipart/form-data">
+    <input type="file" name="file" accept=".gcode" required>
+    <button type="submit">Upload</button>
+</form>
+
+
+<form method="post" action="/select_file">
+    <select name="file" id="file" onchange="this.form.submit()" required>
+        <option value="{{ printer.get_filename() }}" selected>current: {{ printer.get_filename() }}</option>
+        {% for filename in printer.list_files() %}
+        <option value="{{ filename }}">{{ filename }}</option>
+        {% endfor %}
+    </select>
+</form>

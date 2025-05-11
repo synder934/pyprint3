@@ -83,7 +83,8 @@ class Printer:
             return False
 
     def disconnect(self):
-        self.__connection.close()
+        if self.__connection is not None:
+            self.__connection.close()
         self.__connection = None
         self.port = None
 

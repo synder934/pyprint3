@@ -162,9 +162,7 @@ class Printer:
             {"name": "PAUSED", "value": PAUSED},
             {"name": "PRINTING", "value": PRINTING},
         ]
-<<<<<<< HEAD
-=======
-
+    
     def is_connected(self):
         if self.__connection != None:
             return True

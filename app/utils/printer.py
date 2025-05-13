@@ -96,8 +96,9 @@ class Printer:
         except Exception as e:
             return False
 
-    def disconnect(self) -> None:
-        self.__connection.close()
+    def disconnect(self):
+        if self.__connection is not None:
+            self.__connection.close()
         self.__connection = None
         self.port = None
 
@@ -161,3 +162,22 @@ class Printer:
             {"name": "PAUSED", "value": PAUSED},
             {"name": "PRINTING", "value": PRINTING},
         ]
+<<<<<<< HEAD
+=======
+
+    def is_connected(self):
+        if self.__connection != None:
+            return True
+
+        return False
+
+
+if __name__ == "__main__":
+    # printer = Printer()
+    # printer.connect()
+    # while True:
+    #     command = input("ender3 > ")
+    #     printer.queue_command(command)
+
+    pass
+>>>>>>> d29a55aa454c7bcea8b9fcb191358f0d25b5a44a

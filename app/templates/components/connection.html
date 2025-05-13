@@ -1,10 +1,10 @@
 <div>
 
-    {% if printer.connection is none %}
+    {% if printer.is_connected() is false %}
 
     <form action="/connect" method="post">
         <select name="port" id="port" title="port">
-            {% for port in printer.listPorts() %}
+            {% for port in printer.get_ports() %}
             <option value="{{ port }}">{{ port }}</option>
             {% endfor %}
         </select>

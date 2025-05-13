@@ -162,7 +162,7 @@ class Printer:
             {"name": "PAUSED", "value": PAUSED},
             {"name": "PRINTING", "value": PRINTING},
         ]
-    
+
     def is_connected(self):
         if self.__connection != None:
             return True
@@ -178,4 +178,3 @@ if __name__ == "__main__":
     #     printer.queue_command(command)
 
     pass
->>>>>>> d29a55aa454c7bcea8b9fcb191358f0d25b5a44a

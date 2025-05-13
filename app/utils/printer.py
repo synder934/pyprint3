@@ -144,6 +144,12 @@ class Printer:
             {"name": "PRINTING", "value": Printer.PRINTING},
         ]
 
+    def is_connected(self):
+        if self.__connection != None:
+            return True
+
+        return False
+
 
 if __name__ == "__main__":
     # printer = Printer()

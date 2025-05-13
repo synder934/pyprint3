@@ -72,8 +72,8 @@ def serial_log():
 
 @main.route("/set_level", methods=["POST"])
 def set_level():
-    level = request.form.get("level", type=int)
-    current_app.printer.set_print_state(level)
+    level = int(request.form.get("level"))
+    current_app.printer.set_log_level(level)
     return redirect(request.referrer)
 
 
@@ -108,5 +108,5 @@ def select_file():
 
 @main.route("/set_print_state", methods=["POST"])
 def set_print_state():
-    current_app.printer.set_print_state(request.form.get("state"))
+    current_app.printer.set_print_state(int(request.form.get("state")))
     return redirect(request.referrer)

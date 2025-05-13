@@ -29,7 +29,7 @@ class Printer:
         self.port = port
         self.baudrate = baudrate
         self.__connection = None
-        self.__printer_is_busy = True
+        self.__printer_is_busy = False
         self.__log: LogBook = LogBook()
         self.__command_queue: list[dict] = []
 
@@ -43,7 +43,13 @@ class Printer:
     def __interface(self) -> None:
         """interface loop to send and recieve commands with the printer"""
         while True:
-            if self.__print_state == PRINTING and self.__gcode_file is not None:
+            print(self.__command_queue)
+
+            if (
+                self.__print_state == int(PRINTING)
+                and self.__gcode_file is not None
+                and self.__printer_is_busy == False
+            ):
                 self.__queue_next_gcode_command()
             self.__send_next_queued_command()
             self.__log_data_from_serial()
@@ -125,6 +131,9 @@ class Printer:
 
         self.__log.add_log(author, text, level)
 
+    def set_log_level(self, level):
+        self.__log.set_level(level)
+
     def queue_command(self, command: str, author: str = "USER") -> None:
         """appends command to command queue
 
@@ -139,7 +148,7 @@ class Printer:
         if self.__gcode_file is not None:
             self.__gcode_file.close()
         self.__gcode_filepath = os.path.join(os.curdir, "uploads", filename)
-        self.__gcode_file = open(self.__gcode_filepath, "r")
+        self.__gcode_file = open(self.__gcode_filepath, "r", encoding="utf-8")
 
     def get_filename(self) -> str:
         if self.__gcode_filepath:

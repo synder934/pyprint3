@@ -58,6 +58,7 @@ class Printer:
         try:
             if self.__connection is not None:
                 newLines = self.__connection.readlines()
+
                 for line in map(lambda x: x.decode().strip(), newLines):
                     kwargs = line.split(":")
                     if "busy" in kwargs:
@@ -66,6 +67,7 @@ class Printer:
                         self.__printer_is_busy = False
                     self.add_log("PRINTER", line)
         except Exception as e:
+            self.disconnect()
             print(e)
 
     def __send_next_queued_command(self) -> None:
@@ -75,9 +77,7 @@ class Printer:
                 command: str = self.__command_queue.pop(0)
                 self.add_log("SERVER", command)
                 if self.__connection is not None:
-                    if not command.startswith(";") and command.strip() != "":
-                        self.__connection.write("{}\n".format(command).encode())
-                        self.__printer_is_busy = True
+                    self.__connection.write("{}\n".format(command).encode())
                 else:
                     self.add_log("SERVER", "printer is offline")
         except Exception as e:
@@ -86,7 +86,9 @@ class Printer:
     def __queue_next_gcode_command(self) -> None:
         """queue next gcode line from printing file"""
         try:
-            line = self.__gcode_file.readline().strip()
+            line = ""
+            while line.startswith(";") or line == "":
+                line = self.__gcode_file.readline().strip()
             self.queue_command(line, author="PRINTFILE")
         except Exception as e:
             print(e)

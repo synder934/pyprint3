@@ -86,7 +86,7 @@ class Printer:
     def __queue_next_gcode_command(self) -> None:
         """queue next gcode line from printing file"""
         try:
-            line = self.__gcode_file.readline().strip().split(";")[0]
+            line = self.__gcode_file.readline().strip()
             self.queue_command(line, author="PRINTFILE")
         except Exception as e:
             print(e)

@@ -75,8 +75,9 @@ class Printer:
                 command: str = self.__command_queue.pop(0)
                 self.add_log("SERVER", command)
                 if self.__connection is not None:
-                    self.__connection.write("{}\n".format(command).encode())
-                    self.__printer_is_busy = True
+                    if not command.startswith(";"):
+                        self.__connection.write("{}\n".format(command).encode())
+                        self.__printer_is_busy = True
                 else:
                     self.add_log("SERVER", "printer is offline")
         except Exception as e:

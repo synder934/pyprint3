@@ -43,7 +43,6 @@ class Printer:
     def __interface(self) -> None:
         """interface loop to send and recieve commands with the printer"""
         while True:
-            print(self.__command_queue)
 
             if (
                 self.__print_state == int(PRINTING)
